@@ -1,0 +1,18 @@
+services:
+  mysql:
+    image: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: healthapp
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+  healthapp:
+    build: ../.
+    restart: always
+    depends_on:
+      - mysql
+    environment:
+      SPRING_DATABASE_URL: jdbc:mysql://mysql:3306/healthapp?useSSL=false&allowPublicKeyRetrieval=true&autoReconnect=true
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
