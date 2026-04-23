@@ -2,7 +2,7 @@ DROP TABLE IF EXISTS patients;
 DROP TABLE IF EXISTS doctors;
 
 CREATE TABLE doctors (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100),
     specialty VARCHAR(100)
 );
@@ -15,12 +15,12 @@ INSERT INTO doctors (name, specialty) VALUES
 ('Dr. Felipe Azevedo', 'Neurology');
 
 CREATE TABLE patients (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100),
     email VARCHAR(100),
     password VARCHAR(100),
     cpf VARCHAR(14),
-    doctor_id INT,
+    doctor_id BIGINT,
     FOREIGN KEY (doctor_id) REFERENCES doctors(id)
 );
 

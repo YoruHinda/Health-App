@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Dashboard</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial;
+    background: #f8fafc;
+}
+
+header {
+    background: white;
+    padding: 15px 40px;
+    display: flex;
+    justify-content: space-between;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+header h2 {
+    color: #0ea5e9;
+}
+
+.container {
+    padding: 30px;
+}
+
+/* CARDS */
+.stats {
+    display: flex;
+    gap: 20px;
+}
+
+.stat-card {
+    flex: 1;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+}
+
+.stat-card h3 {
+    margin: 0;
+    font-size: 14px;
+    color: #64748b;
+}
+
+.stat-card p {
+    font-size: 26px;
+    margin: 10px 0 0;
+}
+
+/* TABLE */
+.card {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 20px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+th, td {
+    border-bottom: 1px solid #e2e8f0;
+    padding: 10px;
+    text-align: left;
+}
+
+button {
+    padding: 10px 20px;
+    margin-right: 10px;
+    background: #0ea5e9;
+    border: none;
+    color: white;
+    cursor: pointer;
+    border-radius: 6px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h2>🏥 HealthApp</h2>
+</header>
+
+<div class="container">
+
+    <!-- STATS -->
+    <div class="stats">
+        <div class="stat-card">
+            <h3>Pacientes</h3>
+            <p id="totalPatients">0</p>
+        </div>
+        <div class="stat-card">
+            <h3>Médicos</h3>
+            <p id="totalDoctors">0</p>
+        </div>
+    </div>
+
+    <!-- ACTIONS -->
+    <div style="margin-top:20px;">
+        <button onclick="loadPatients()">Ver Pacientes</button>
+        <button onclick="loadDoctors()">Ver Médicos</button>
+        <button onclick="goAdmin()">Admin</button>
+    </div>
+
+    <!-- PATIENTS -->
+    <div id="patients" class="card">
+        <h3>Pacientes</h3>
+        <p>Carregue os dados</p>
+    </div>
+
+    <!-- DOCTORS -->
+    <div id="doctors" class="card">
+        <h3>Médicos</h3>
+        <p>Carregue os dados</p>
+    </div>
+
+</div>
+
+<script>
+
+// carregar pacientes
+function loadPatients() {
+    fetch("/api/patients")
+        .then(res => res.json())
+        .then(data => {
+            document.getElementById("totalPatients").innerText = data.length;
+
+            let html = `<table>
+                <tr><th>ID</th><th>Nome</th><th>Email</th><th>CPF</th></tr>`;
+
+            data.forEach(p => {
+                html += `<tr>
+                    <td>${p.id}</td>
+                    <td>${p.name}</td>
+                    <td>${p.email}</td>
+                    <td>${p.cpf}</td>
+                </tr>`;
+            });
+
+            html += `</table>`;
+            document.getElementById("patients").innerHTML = html;
+        });
+}
+
+// carregar médicos
+function loadDoctors() {
+    fetch("/api/doctors")
+        .then(res => res.json())
+        .then(data => {
+            document.getElementById("totalDoctors").innerText = data.length;
+
+            let html = `<table>
+                <tr><th>ID</th><th>Nome</th><th>Especialidade</th></tr>`;
+
+            data.forEach(d => {
+                html += `<tr>
+                    <td>${d.id}</td>
+                    <td>${d.name}</td>
+                    <td>${d.specialty}</td>
+                </tr>`;
+            });
+
+            html += `</table>`;
+            document.getElementById("doctors").innerHTML = html;
+        });
+}
+
+function goAdmin() {
+    window.location.href = "admin.html";
+}
+
+</script>
+
+</body>
+</html>

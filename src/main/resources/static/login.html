@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Login - HealthApp</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial;
+    background: #f1f5f9;
+}
+
+header {
+    background: white;
+    padding: 15px 40px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+header h2 {
+    color: #0ea5e9;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80vh;
+}
+
+.login-box {
+    background: white;
+    padding: 40px;
+    border-radius: 10px;
+    width: 320px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+    text-align: center;
+}
+
+input {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: 1px solid #cbd5f5;
+    border-radius: 6px;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    background: #0ea5e9;
+    border: none;
+    color: white;
+    cursor: pointer;
+    border-radius: 6px;
+}
+
+#result {
+    margin-top: 15px;
+    color: #64748b;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h2>🏥 HealthApp</h2>
+</header>
+
+<div class="container">
+    <div class="login-box">
+        <h3>Acesso ao sistema</h3>
+
+        <input type="text" id="username" placeholder="Email">
+        <input type="text" id="password" placeholder="Senha">
+
+        <button onclick="login()">Entrar</button>
+
+        <p id="result"></p>
+    </div>
+</div>
+
+<script>
+function login() {
+    const u = document.getElementById("username").value;
+    const p = document.getElementById("password").value;
+
+    fetch(`/api/login?username=${u}&password=${p}`)
+        .then(res => res.text())
+        .then(data => {
+            document.getElementById("result").innerText = data;
+
+            if (data.includes("Success")) {
+                window.location.href = "dashboard.html";
+            }
+        });
+}
+</script>
+
+</body>
+</html>

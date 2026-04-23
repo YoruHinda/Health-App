@@ -12,7 +12,9 @@ services:
     restart: always
     depends_on:
       - mysql
+    ports:
+      - "8080:8080"
     environment:
-      SPRING_DATABASE_URL: jdbc:mysql://mysql:3306/healthapp?useSSL=false&allowPublicKeyRetrieval=true&autoReconnect=true
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/healthapp?useSSL=false&allowPublicKeyRetrieval=true&autoReconnect=true
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: root
